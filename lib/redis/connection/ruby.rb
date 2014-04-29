@@ -49,7 +49,9 @@ class Redis
           read_nonblock(nbytes)
 
         rescue Errno::EWOULDBLOCK, Errno::EAGAIN
-          if IO.select([self], nil, nil, @timeout)
+          r, w, e = IO.select([self], nil, [self], @timeout)
+          puts "read: #{r}, write: #{w}, error: #{e}",
+          if r.nil?
             retry
           else
             raise Redis::TimeoutError
