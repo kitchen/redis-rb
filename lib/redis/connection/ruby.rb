@@ -50,7 +50,7 @@ class Redis
 
         rescue Errno::EWOULDBLOCK, Errno::EAGAIN
           r, w, e = IO.select([self], nil, [self], @timeout)
-          puts "read: #{r}, write: #{w}, error: #{e}"
+          $stderr.puts "read: #{r}, write: #{w}, error: #{e}"
           if r
             retry
           else
