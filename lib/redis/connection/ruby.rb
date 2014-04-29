@@ -51,7 +51,7 @@ class Redis
         rescue Errno::EWOULDBLOCK, Errno::EAGAIN
           r, w, e = IO.select([self], nil, [self], @timeout)
           puts "read: #{r}, write: #{w}, error: #{e}"
-          if r.nil?
+          if r
             retry
           else
             raise Redis::TimeoutError
